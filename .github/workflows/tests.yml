@@ -1,0 +1,38 @@
+# GitHub Actions. Runs on demand (Actions > Tests > Run workflow) or on a schedule, not on push.
+# Secrets come from the repository settings: APP_USERNAME, APP_PASSWORD, and QASE_MODE=testops + QASE_TESTOPS_PROJECT + QASE_TESTOPS_API_TOKEN to report to Qase.
+name: Tests
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "0 6 * * 1-5"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright/python:v1.64.1-noble
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - run: ruff check .
+
+  tests:
+    needs: lint
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright/python:v1.64.1-noble
+    env:
+      APP_USERNAME: ${{ secrets.APP_USERNAME }}
+      APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+      QASE_MODE: ${{ vars.QASE_MODE || 'off' }}
+      QASE_TESTOPS_PROJECT: ${{ vars.QASE_TESTOPS_PROJECT }}
+      QASE_TESTOPS_API_TOKEN: ${{ secrets.QASE_TESTOPS_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -n auto --junitxml=reports/junit.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports
+          path: reports/
+          retention-days: 14

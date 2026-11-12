@@ -1,0 +1,28 @@
+{
+  "mode": "off",
+  "fallback": "report",
+  "testops": {
+    "project": "YOUR_PROJECT_CODE",
+    "api": {
+      "host": "qase.io"
+    },
+    "run": {
+      "complete": true
+    },
+    "batch": {
+      "size": 100
+    }
+  },
+  "report": {
+    "driver": "local",
+    "connection": {
+      "path": "./reports/qase",
+      "format": "json"
+    }
+  },
+  "framework": {
+    "pytest": {
+      "captureLogs": true
+    }
+  }
+}

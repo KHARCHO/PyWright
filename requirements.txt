@@ -1,0 +1,18 @@
+# Test runner + Playwright
+pytest==9.2.0
+pytest-playwright==0.10.0
+playwright==1.64.1
+
+# Config, reporting, parallel runs
+python-dotenv==1.2.4
+pytest-html==4.2.0
+pytest-xdist==3.8.0
+
+# Qase TestOps reporter (off by default, see qase.config.json)
+qase-pytest==9.0.1
+
+# Allure results, written only with --alluredir (see RUNNING_TESTS.md)
+allure-pytest==2.16.2
+
+# Linter
+ruff==0.17.3

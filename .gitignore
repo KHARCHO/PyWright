@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Local config and secrets
+.env
+
+# Test output
+reports/
+
+# IDE
+.idea/
+.vscode/
